@@ -81,17 +81,25 @@
         <div class="content">
             
                 <div class="inputDiv">
-                    <div class="input-group">
-                        <span class="input-group-addon" style="border:1px solid #ccc; border-radius: 4px;">기본 그룹</span>
-                    </div>
-
-                    <form action="" method="POST">{% csrf_token %}
+                    {% for category in categories %}
+                    {% if category.id == 3 %}
                         <div class="input-group">
-                            <span class="input-group-addon" id="" style="border:1px solid #ccc; border-radius: 4px;">한식</span>
-                            <input type="hidden" name="categoryId" id="categoryId" value=""/>
+                            <span class="input-group-addon" style="border: 1px solid #ccc; border-radius: 4px;">{{category.category_name}}</span>
+                        </div>
+                    {% endif %}
+                    {% endfor %}
+
+                    {% for category in categories %}
+                    {% if category.id != 3 %}
+                    <form action="./delete" method="POST">{% csrf_token %}
+                        <div class="input-group">
+                            <span class="input-group-addon" id="" style="border:1px solid #ccc; border-radius:4px">{{category.category_name}}</span>
+                            <input type="hidden" name="categoryId" id="categoryId" value="{{category.id}}"/>
                             <input type="submit" class="resAddBtn btn btn-danger" role="button" value="삭제"/>
                         </div>
                     </form>
+                    {% endif %}
+                    {% endfor %}
 
                     <form action="./create" method="POST" onsubmit="return categoryAddCheckFrom();">{% csrf_token %}
                         <div class="input-group">
